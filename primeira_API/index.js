@@ -5,6 +5,7 @@ const app = new express();
 app.use(express.json());
 
 var contador_id = 1;
+
 var data = [{
     id: 1,
     nome: "ENzo Savaris",
@@ -34,8 +35,10 @@ app.post("/cadastrar", (req, res) => {
    
     const { nome, cpf, status } = req.body;
 
-    if (!cpf) {
-        return res.send("O campo CPF é obrigatorio!");
+    if  (nome == undefined || nome == "") {
+        return res.status(300).send("O campo NOME é obrigatorio!");
+    } else if (cpf == undefined || cpf == "") {
+        return res.status(300).send("O campo CPF é obrigatorio!");
     }
 
     contador_id++
@@ -47,8 +50,6 @@ app.post("/cadastrar", (req, res) => {
         status
     });
 
-    
-
     return res.send(data);
 });
 
@@ -56,6 +57,33 @@ app.listen(8080, () => {
     console.log("O sevidor está rodando na porta 8080!");
 });
 
+app.delete("/deletar/:id", (req, res) => {
+    const { id } = req.params;  
+
+    data = data.filter((item) => {
+        return item.id != id;
+    });
+
+    return res.send(data);
+});
+
+app.put("/atualizar", (req, res) => {
+    const { id, nome, cpf, status } = req.body;
+
+    const indexPessoa = data.findIndex((item) => {
+        return item.id == id;
+    });
+
+    
+    if (indexPessoa == -1) {
+        return res.status(400).send(`Pessoa do código: ${id} não encontrada!`);
+    } else {
+        data[indexPessoa].nome   = nome;
+        data[indexPessoa].cpf    = cpf;
+        data[indexPessoa].status = status;
+    }    
+    res.send(data[indexPessoa]);
+});
 
 //STATUS 500 - ERRO INTERNO, SEM EXPLICAÇÃO, IGUAL ELEITOR DO LULA(NÃO TEM EXPLICAÇÃO, SÓ EXISTE)
 //STATUS 400 - ERRO DE REQUISIÇÃO, FALTA ALGUM DADO.
