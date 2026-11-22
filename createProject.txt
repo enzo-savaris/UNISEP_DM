@@ -1,0 +1,9 @@
+1º npx create-expo-app@latest --template blank
+
+2º ? What is your app named? crud
+
+3º ? Select an Expo SDK version: › - Use arrow-keys. Return to submit.
+❯   For learning with Expo Go (SDK 58)
+
+4º ? You are creating a project inside of an existing Git repository. Skip initializing a new git repository?
+❯ y

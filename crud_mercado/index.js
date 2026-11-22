@@ -1,7 +1,9 @@
 import express from "express";
 import knex from "knex";
+import cors from "cors";
 
 const app = new express();
+
 const mySql = knex({
     client: "mysql2",
     connection: {
@@ -24,6 +26,8 @@ async function testaConexaoComBancoDeDados() {
 testaConexaoComBancoDeDados();
 
 app.use(express.json());
+app.use(cors());
+
 
 app.listen(8080, () => {
     console.log("O sevidor está rodando na porta 8080!");
